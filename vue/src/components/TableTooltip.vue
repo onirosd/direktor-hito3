@@ -2,7 +2,7 @@
   <div
     class="flex flex-col w-40 h-[84px] rounded bg-white absolute shadow-tooltip z-10"
   >
-    <!-- <div
+    <div
       class="w-full h-10 flex items-center text-[#616E8E] group cursor-pointer"
       @click="handleClick('addRow')"
     >
@@ -12,7 +12,7 @@
         class="ml-6 mr-3 group-hover:content-addActive"
       />
       <span class="text-[10px] leading-3 group-hover:text-orange">Agregar fila</span>
-    </div> -->
+    </div>
     <div
       class="w-full h-10 flex items-center text-[#616E8E] group cursor-pointer"
       @click="handleClick('deleteRow')"

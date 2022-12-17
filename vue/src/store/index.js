@@ -112,13 +112,18 @@ const store = createStore({
 
 
       ]
-    }
+    },
+    Restrictionlist:[]
   },
   getters: {
     users: (state) => (id) => {
       const row = state.restriction_rows.find((row) => row.id === id);
       if (typeof row === "undefined") return [];
       return row.users;
+    },
+    addRestriction:(state) => (items) => {
+      state.Restrictionlist = items;
+      console.log(state.Restrictionlist);
     },
     data: (state) => (id) => {
       const row = state.restriction_rows.find((row) => row.id === id);
@@ -284,9 +289,12 @@ const store = createStore({
       })
     },
     get_front({commit}){
-      const anaresdata = { id: sessionStorage.getItem('constraintid') }
+
+      // const anaresdata = { id: sessionStorage.getItem('constraintid') }
+      const anaresdata = 107;
       return axiosClient.post('get_front', anaresdata)
       .then(res => {
+        console.log(res.data);
         commit('setAnaResData', res.data)
       })
     }
@@ -360,6 +368,7 @@ const store = createStore({
         };
         state.whiteproject_rows.push(temp);
       } else {
+        
         const row = state.whiteproject_rows.find((row) => row.id === payload.frontId);
         const temp = {
           id: row.info.length+1,

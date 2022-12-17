@@ -74,6 +74,7 @@ export default {
       this.$emit('openModal', {param: payload.param, id: payload.id});
     },
     ConstraintAnalysis: function(id) {
+      
       this.$emit('openConstraintPage', {id: id})
     }
   },

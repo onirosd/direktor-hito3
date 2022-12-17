@@ -165,7 +165,7 @@
                   >
                 </div>
                 <div class="outer relative border border-[#D0D9F1] rounded-lg before:w-24 before:absolute before:h-full before:shadow-tooltip">
-                  <div class="inner overflow-x-scroll overflow-hidden ml-24">
+                  <div class="inner overflow-scroll overflow-hidden ml-24">
                     <DataTable
                       :tableType="'scroll'"
                       :cols="headerCols"
@@ -212,6 +212,7 @@
               :phaseId="phaseId"
               :frontName="frontName"
               :phaseName="phaseName"
+              :restrictionOption="restrictionOption"
               class="table-fixed"
               @fullScreen="toggleFullScreen"
               @addRow="addRow"
@@ -240,6 +241,7 @@
       @closeModal="closeModal"
       @confirmStatus="duplicate"
     />
+    <RestrictionPerson :rows="rows" v-if="personalizeOpen === true" @closeModal="closeModal" @addRestriction="addRestriction" />
   </div>
 </template>
 <script>
@@ -247,6 +249,7 @@ import Breadcrumb from "../../components/Layout/Breadcrumb.vue";
 import DataTable from "../../components/DataTable.vue";
 import ScrollTableRow from "../../components/ScrollTableRow.vue";
 import AddFront from "../../components/AddFront.vue";
+import RestrictionPerson from "../../components/RestrictionPerson.vue";
 import DeleteFront from "../../components/DeleteFront.vue";
 import ToggleColumn from "../../components/ToggleColumn.vue";
 import AddRow from "../../components/AddRow.vue";
@@ -263,6 +266,7 @@ export default {
     DataTable,
     ScrollTableRow,
     AddFront,
+    RestrictionPerson,
     DeleteFront,
     ToggleColumn,
     AddRow,
@@ -346,6 +350,7 @@ export default {
     },
     closeModal: function () {
       this.modalName = "";
+      this.personalizeOpen = false;
     },
     setColumnsStatus: function(payload) {
       this.$store.commit({
@@ -420,9 +425,12 @@ export default {
       }
       this.closeModal();
     },
-    addRowModal: function(payload) {
-      console.log(payload)
+    addRowModal: function(payload) { 
       this.openModal({param: 'addRow', frontId: payload.frontId, phaseId: payload.phaseId})
+    },
+    addRestriction: function(options) { 
+      this.$store.getters.addRestriction(options)
+      this.closeModal();
     }
   },
   computed: {
@@ -430,8 +438,10 @@ export default {
       return this.rows.length > 0 ? false : true;
     },
     rows: function() {
-      console.log('getting');
       return this.$store.state.whiteproject_rows;
+    },
+    restrictionOption: function () {
+      return this.$store.state.Restrictionlist;
     },
     tableData: function() {
       return this.$store.getters.tableData({id: this.frontId, phaseId: this.phaseId});
