@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.5.62, for Win64 (AMD64)
 --
--- Host: localhost    Database: appdb13
+-- Host: localhost    Database: appdb14
 -- ------------------------------------------------------
 -- Server version	5.5.5-10.4.24-MariaDB
 
@@ -38,7 +38,6 @@ CREATE TABLE `ana_integrantes` (
 
 LOCK TABLES `ana_integrantes` WRITE;
 /*!40000 ALTER TABLE `ana_integrantes` DISABLE KEYS */;
-INSERT INTO `ana_integrantes` VALUES (98,10,1,'2022-11-23 22:38:24','',1),(98,10,1,'2022-11-23 22:38:24','',2),(107,19,1,'2022-11-28 17:54:20','',19),(107,19,1,'2022-11-28 17:54:20','',20);
 /*!40000 ALTER TABLE `ana_integrantes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -76,6 +75,31 @@ LOCK TABLES `anares_actividad` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `anares_analisis_tiporestricciones`
+--
+
+DROP TABLE IF EXISTS `anares_analisis_tiporestricciones`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `anares_analisis_tiporestricciones` (
+  `codAnalisisTipoRestricciones` bigint(20) NOT NULL,
+  `codAnaRes` bigint(20) NOT NULL,
+  `desTipoRestricciones` varchar(250) DEFAULT NULL,
+  KEY `AnaRes_Analisis_TipoRestricciones_R_01` (`codAnaRes`),
+  CONSTRAINT `AnaRes_Analisis_TipoRestricciones_R_01` FOREIGN KEY (`codAnaRes`) REFERENCES `anares_analisisrestricciones` (`codAnaRes`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `anares_analisis_tiporestricciones`
+--
+
+LOCK TABLES `anares_analisis_tiporestricciones` WRITE;
+/*!40000 ALTER TABLE `anares_analisis_tiporestricciones` DISABLE KEYS */;
+/*!40000 ALTER TABLE `anares_analisis_tiporestricciones` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `anares_analisisrestricciones`
 --
 
@@ -91,7 +115,7 @@ CREATE TABLE `anares_analisisrestricciones` (
   `indRetrasados` int(11) DEFAULT NULL,
   `codAnaRes` bigint(20) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`codAnaRes`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -100,7 +124,7 @@ CREATE TABLE `anares_analisisrestricciones` (
 
 LOCK TABLES `anares_analisisrestricciones` WRITE;
 /*!40000 ALTER TABLE `anares_analisisrestricciones` DISABLE KEYS */;
-INSERT INTO `anares_analisisrestricciones` VALUES (88,1,'2022-11-21 13:23:39','John Doe, James Lilley,',55,40,1),(89,1,'2022-11-21 13:34:41','john@j.com, james@j.com,',55,40,2),(91,1,'2022-11-21 13:55:39','james@d.com',55,40,3),(92,1,'2022-11-22 08:42:53','peter@peter.com',55,40,4),(93,1,'2022-11-23 07:39:33','james@d.com',55,40,5),(97,1,'2022-11-23 10:44:09','Daniel@gmail.com',55,40,9),(98,1,'2022-11-23 22:38:24','Daniel@gmail.com',55,40,10),(99,1,'2022-11-24 10:27:57','Daniel@gmail.com',55,40,11),(100,1,'2022-11-24 10:31:03','Daniel@gmail.com',55,40,12),(101,1,'2022-11-24 11:07:16','Daniel@gmail.com',55,40,13),(102,1,'2022-11-24 12:08:31','Daniel@gmail.com',55,40,14),(103,1,'2022-11-24 12:10:06','Daniel@gmail.com',55,40,15),(104,1,'2022-11-24 12:14:04','Daniel@gmail.com',55,40,16),(105,1,'2022-11-24 13:35:24','Daniel@gmail.com',55,40,17),(106,1,'2022-11-24 13:37:49','Daniel@gmail.com',55,40,18),(107,1,'2022-11-24 13:41:02','Daniel@gmail.com',55,40,19),(108,1,'2022-11-24 14:26:11','Daniel@gmail.com',55,40,20),(109,1,'2022-11-30 10:51:54','Daniel@gmail.com',55,40,21),(110,1,'2022-11-30 21:19:58','diego@gmail.com',55,40,22),(111,1,'2022-12-14 06:17:26','diego@gmail.com',55,40,23);
+INSERT INTO `anares_analisisrestricciones` VALUES (112,1,'2022-12-18 09:38:54','diego@gmail.com',55,40,24);
 /*!40000 ALTER TABLE `anares_analisisrestricciones` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -122,7 +146,7 @@ CREATE TABLE `anares_fase` (
   PRIMARY KEY (`codAnaResFase`) USING BTREE,
   UNIQUE KEY `XPKAnaRes_Fase` (`codAnaResFase`,`codAnaResFrente`,`codProyecto`,`codAnaRes`) USING BTREE,
   KEY `XIF1AnaRes_Fase` (`codAnaResFrente`,`codProyecto`,`codAnaRes`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -131,7 +155,7 @@ CREATE TABLE `anares_fase` (
 
 LOCK TABLES `anares_fase` WRITE;
 /*!40000 ALTER TABLE `anares_fase` DISABLE KEYS */;
-INSERT INTO `anares_fase` VALUES (1,'Test Phase','2022-11-29 08:12:53',NULL,1,107,19),(2,'Phase Test','2022-11-29 09:12:53',NULL,1,107,19),(3,'second','2022-11-29 10:41:21','',2,107,19);
+INSERT INTO `anares_fase` VALUES (4,'FASE PRUEBA1','2022-12-18 09:39:46','',1,112,24);
 /*!40000 ALTER TABLE `anares_fase` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -150,7 +174,7 @@ CREATE TABLE `anares_frente` (
   `codProyecto` bigint(20) NOT NULL,
   `codAnaRes` bigint(20) NOT NULL,
   PRIMARY KEY (`codAnaResFrente`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -159,8 +183,31 @@ CREATE TABLE `anares_frente` (
 
 LOCK TABLES `anares_frente` WRITE;
 /*!40000 ALTER TABLE `anares_frente` DISABLE KEYS */;
-INSERT INTO `anares_frente` VALUES (1,'Test Front','2022-11-29 08:12:53','',107,19),(2,'Front TEST','2022-11-29 09:08:33','',107,19);
+INSERT INTO `anares_frente` VALUES (3,'FRENTE PRUEBA1','2022-12-18 09:39:30','',112,24);
 /*!40000 ALTER TABLE `anares_frente` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `anares_tiporestricciones`
+--
+
+DROP TABLE IF EXISTS `anares_tiporestricciones`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `anares_tiporestricciones` (
+  `codTipoRestricciones` bigint(20) NOT NULL,
+  `desTipoRestricciones` varchar(250) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `anares_tiporestricciones`
+--
+
+LOCK TABLES `anares_tiporestricciones` WRITE;
+/*!40000 ALTER TABLE `anares_tiporestricciones` DISABLE KEYS */;
+INSERT INTO `anares_tiporestricciones` VALUES (1,'ARQUITECTURA'),(2,'LLENADO');
+/*!40000 ALTER TABLE `anares_tiporestricciones` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -419,7 +466,7 @@ CREATE TABLE `proy_integrantes` (
   `codRolIntegrante` int(11) DEFAULT NULL,
   `desCorreo` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`codProyIntegrante`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -428,7 +475,7 @@ CREATE TABLE `proy_integrantes` (
 
 LOCK TABLES `proy_integrantes` WRITE;
 /*!40000 ALTER TABLE `proy_integrantes` DISABLE KEYS */;
-INSERT INTO `proy_integrantes` VALUES (1,98,8,'1','Peru','2022-11-15 07:43:58',NULL,1,'jack@j.com'),(2,98,8,'1','Peru','2022-11-15 07:44:02',NULL,2,'David@d.com'),(3,99,8,'1','editor','2022-11-24 10:27:57',NULL,1,'asdgasdg'),(4,99,8,'1','visualizer','2022-11-24 10:27:57',NULL,1,'zxcvzxcvzxcv'),(5,100,8,'1','peru','2022-11-24 10:31:03',NULL,1,'asdfasdf'),(6,100,8,'1','ua','2022-11-24 10:31:03',NULL,1,'zxcvzxcv'),(7,101,8,'1','Peru','2022-11-24 11:07:16',NULL,1,'fasdgasdg'),(8,101,8,'1','Ukraine','2022-11-24 11:07:16',NULL,1,'zxcvzxcv'),(9,102,8,'1','Peru','2022-11-24 12:08:31',NULL,1,'john@j.com'),(10,102,8,'1','Ukraine','2022-11-24 12:08:31',NULL,1,'david@d.com'),(11,103,8,'1','Peru','2022-11-24 12:10:06',NULL,1,'asfasdfasd'),(12,103,8,'1','Ukraine','2022-11-24 12:10:06',NULL,1,'zxcbzxcb'),(13,104,8,'1','Peru','2022-11-24 12:14:04',NULL,1,'11qweqweqw'),(14,104,8,'1','Ukraine','2022-11-24 12:14:04',NULL,1,'asdasdsadas'),(15,105,8,'1','Peru','2022-11-24 13:35:24',NULL,1,'adsfasdfasdf'),(16,105,8,'1','Ukraine','2022-11-24 13:35:24',NULL,1,'xczvxcvzxcv'),(17,106,8,'1','Peru','2022-11-24 13:37:49',NULL,1,'asdfasdf'),(18,106,8,'1','Ukraine','2022-11-24 13:37:49',NULL,1,'azxvzxcv'),(19,107,8,'1','Peru','2022-11-24 13:41:02',NULL,1,'zxcvzxcv'),(20,107,8,'1','Ukraine','2022-11-24 13:41:02',NULL,1,'asfasdf'),(21,108,8,'1','werqw','2022-11-24 14:26:11',NULL,1,'asdfasdf'),(22,108,8,'1','asdfasdf','2022-11-24 14:26:11',NULL,1,'zxcvzxcv'),(23,108,8,'1','zxvasdfasd','2022-11-24 14:26:11',NULL,1,'xcvzxv'),(24,109,8,'1','sfsdgdf','2022-11-30 10:51:54',NULL,1,'56858'),(25,109,8,'1','d3y5hth','2022-11-30 10:51:54',NULL,1,'w346w'),(26,110,9,'1','CARGO','2022-11-30 21:19:58',NULL,1,'juan@gmail.com'),(27,111,9,'1','CARGO','2022-12-14 06:17:26',NULL,1,'juan@gmail.com');
+INSERT INTO `proy_integrantes` VALUES (28,112,9,'1','CARGO','2022-12-18 09:38:54',NULL,1,'juan@gmail.com');
 /*!40000 ALTER TABLE `proy_integrantes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -460,7 +507,7 @@ CREATE TABLE `proy_proyecto` (
   UNIQUE KEY `XPKProy_Proyecto` (`codProyecto`) USING BTREE,
   KEY `XIF1Proy_Proyecto` (`id`) USING BTREE,
   KEY `XIF2Proy_Proyecto` (`codUbigeo`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -469,7 +516,7 @@ CREATE TABLE `proy_proyecto` (
 
 LOCK TABLES `proy_proyecto` WRITE;
 /*!40000 ALTER TABLE `proy_proyecto` DISABLE KEYS */;
-INSERT INTO `proy_proyecto` VALUES (1,'2341',1,4,'1234',1235,1245.00,'1234',452,NULL,356234.00,2346.00,3456.00,NULL,'3456','2022-11-08 15:07:29',NULL),(8,'RES',1,2,'R',2,2.00,'2',2,NULL,2.00,2.00,2.00,NULL,'2','2022-11-04 23:37:10',NULL),(9,'UUUU',1,20,'UU',20,20.00,'20',20,NULL,20.00,20.00,20.00,NULL,'20','2022-11-04 23:45:23',NULL),(11,'REST',1,20,'FE',20,20.00,'RES',20,NULL,20.00,202.00,20.00,NULL,'20','2022-11-05 05:51:36',NULL),(12,'Test Project',1,30,'Test Com',30,20.00,'20',20,NULL,400.00,20.00,20.00,NULL,'20','2022-11-05 08:19:50',NULL),(13,'New Project',1,30,'New Com',30,20.00,'30',20,NULL,30.00,20.00,30.00,NULL,'20','2022-11-05 08:23:34',NULL),(14,'Ressss',1,20,'sss',20,20.00,'Res',20,NULL,2.00,0.00,20.00,NULL,'20','2022-11-05 10:03:39',NULL),(15,'GJE',1,20,'Gej',20,20.00,'20',20,NULL,20.00,20.00,20.00,NULL,'20','2022-11-05 10:04:43',NULL),(16,'Re',1,20,'Re',20,20.00,'20',20,NULL,20.00,20.00,20.00,NULL,'20','2022-11-05 10:11:28',NULL),(17,'Re',1,20,'Re',20,20.00,'20',20,NULL,20.00,20.00,20.00,NULL,'20','2022-11-05 10:12:21',NULL),(18,'222',1,2,'2',2,2.00,'2',2,NULL,2.00,2.00,2.00,NULL,'2','2022-11-05 10:13:17',NULL),(75,'asdfasdf',1,5,'zxcvzxcv',20,7.00,'7',7,NULL,7.00,7.00,7.00,NULL,'7','2022-11-14 12:05:09','asdfasdf,'),(76,'qweq',1,5,'qwerq',7,7.00,'7',7,NULL,7.00,77.00,7.00,NULL,'7','2022-11-14 12:08:06','sdf,'),(77,'asdg',1,5,'wertwe',7,7.00,'7',7,NULL,7.00,7.00,7.00,NULL,'7','2022-11-14 12:12:07','asdgasg,'),(78,'asdfasdf',1,5,'wrqwer',7,7.00,'7',7,NULL,7.00,7.00,7.00,NULL,'7','2022-11-14 12:13:46','peter@p.com, vector@v.com,'),(79,'New Project',1,5,'New Company',100,100.00,'100',100,NULL,100.00,100.00,100.00,NULL,'100','2022-11-14 12:19:00','Peter, David, James,'),(80,'New Project NEWNEW',1,6,'New Company',10,10.00,'Abierto',10,'2022-11-20 10:23:25',10.00,10.00,10.00,NULL,'10','2022-11-20 20:43:07','Peter, David, James,'),(82,'new',1,6,'NEW',7,7.00,'Abierto',7,NULL,7.00,7.00,7.00,'Peru','7','2022-11-18 04:01:14','asdfasdf, zxcvzxcv,'),(83,'New Laravel + Vue Project',1,6,'Client Peru Diego',500,50.00,'Cerrado',75,'2022-11-20 10:23:25',70.00,70.00,70.00,'Peru','newnewnew','2022-11-18 15:46:28','peter@p.com, vector@v.com, james@j.com, jack@j.com, new@n.com,'),(85,'Des Project',1,6,'em',70,70.00,'Cerrado',70,'2022-11-20 10:23:25',70.00,70.00,70.00,NULL,'70','2022-11-18 12:13:53','james@j.com, alpha@a.com, top@t.com,'),(88,'New Pro new',1,6,'new co',70,70.00,'Abierto',70,'2022-11-20 10:23:25',70.00,70.00,70.00,'Peru','ABC','2022-11-21 13:23:39','John Doe, James Lilley,'),(89,'PRoject New',1,6,'Com new',77,77.00,'Abierto',77,'2022-11-20 10:23:25',77.00,77.00,77.00,'Peru','DDD','2022-11-21 13:34:41','john@j.com, james@j.com,'),(91,'MDmDMDM',1,6,'md',70,70.00,'Abierto',70,'2022-11-20 10:23:25',70.00,70.00,70.00,'Peru','QQWWW','2022-11-21 13:55:39','John, Liely,'),(92,'New Project Laravel+Vue',1,7,'New Company',70,70.00,'Abierto',70,'2022-11-20 10:23:25',70.00,70.00,70.00,'Peru','Peru','2022-11-22 08:47:50','James@james.com, Peter@peter.com, Diego@diego.com,'),(93,'asdfasdf',1,6,'asdasdf',70,70.00,'70',70,'2022-11-20 10:23:25',70.00,70.00,70.00,'Peru','70','2022-11-23 07:39:33','asdfasdf, zxcvzxcv,'),(106,'77',1,8,'7',7,7.00,'7',7,'2022-11-20 10:23:25',7.00,7.00,7.00,'Peru','7','2022-11-24 13:37:49','asdfasdf, azxvzxcv,'),(107,'asdgasdg',1,8,'asdfasd',7,7.00,'7',7,'2022-11-20 10:23:25',7.00,7.00,7.00,'Peru','7','2022-11-28 17:54:20','zxcvzxcv, asfasdf,'),(108,'70',1,8,'70',7,7.00,'7',7,'2022-11-20 10:23:25',7.00,7.00,7.00,'Peru','77','2022-11-24 14:26:11','asdfasdf, zxcvzxcv, xcvzxv,'),(109,'qwer',1,8,'q',7,7.00,'7',7,'2022-11-20 10:23:25',7.00,7.00,7.00,'Peru','7','2022-11-30 10:51:54','56858, w346w,'),(110,'PRUEBA PERU',1,9,'SODIMAC',32,23.00,'23',232,'2022-11-20 10:23:25',2124.00,45.00,54.00,'PERU','villa el salvador','2022-11-30 21:27:35','juan@gmail.com,'),(111,'DICIEMBREPRUEBA',1,9,'SODIMAC',12,3.00,'23',2,'2022-11-20 10:23:25',4545.00,12.00,21.00,'PERU','villa el salvador','2022-12-14 06:17:26','juan@gmail.com,');
+INSERT INTO `proy_proyecto` VALUES (112,'PROYECTO PRUEBA',1,9,'SODIMAC',1,1.00,'3',23,'2022-11-20 10:23:25',45.00,10.00,10.00,'peru','villa veremos','2022-12-18 09:38:54','juan@gmail.com,');
 /*!40000 ALTER TABLE `proy_proyecto` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -498,7 +545,7 @@ CREATE TABLE `proy_proyectoreportes` (
 
 LOCK TABLES `proy_proyectoreportes` WRITE;
 /*!40000 ALTER TABLE `proy_proyectoreportes` DISABLE KEYS */;
-INSERT INTO `proy_proyectoreportes` VALUES (1,63,1,'LV','2022-11-14 11:49:09',NULL,'sky@sky.com, dream@dream.com',NULL),(2,71,1,'LV','2022-11-14 11:52:19','','sdfasdf,',1),(3,72,1,'LV','2022-11-14 11:56:38','','asdfasdf,',2),(4,73,1,'LV','2022-11-14 11:57:58','','asdfasdf,',1),(5,74,1,'LV','2022-11-14 12:01:09','','oopop,',1),(6,74,1,'LV','2022-11-14 12:01:09','','oopop, xzcZxc,',2),(7,75,1,'LV','2022-11-14 12:05:09','','asdfasdf,',1),(8,76,1,'LV','2022-11-14 12:08:06','','sdf,',2),(9,77,1,'LV','2022-11-14 12:12:07','','asdgasg,',2),(10,78,1,'LV','2022-11-14 12:13:46','','zxcv,',1),(11,78,1,'LV','2022-11-14 12:13:46','','zxcv, asdzxcv,',2),(12,79,1,'LV','2022-11-14 12:19:00','','peter@p.com,',2),(13,79,1,'LV','2022-11-14 12:19:00','','peter@p.com, vector@v.com,',3),(14,80,1,'LV','2022-11-14 22:33:48','','Peter, David, James,',1),(15,80,0,'LV','2022-11-14 22:33:48','','Peter,',2),(16,82,1,'LV','2022-11-18 04:01:14','','asdfasdf, zxcvzxcv,',1),(17,85,1,'LV','2022-11-18 12:13:53','','james@j.com, alpha@a.com, top@t.com,',1),(18,85,0,'LV','2022-11-18 12:13:53','','james@j.com, alpha@a.com, top@t.com,',3),(19,88,1,'LV','2022-11-21 13:23:39','','John Doe, James Lilley,',1),(20,88,0,'LV','2022-11-21 13:23:39','','John Doe, James Lilley,',3),(21,89,1,'LV','2022-11-21 13:34:41','','john@j.com, james@j.com,',1),(22,89,0,'LV','2022-11-21 13:34:41','','john@j.com,',2),(23,91,1,'LS','2022-11-21 13:55:39','','John, Liely,',2),(24,92,1,'LV','2022-11-22 08:42:53','','James@james.com, Peter@peter.com,',1),(25,92,0,'LV','2022-11-22 08:42:53','','James@james.com, Peter@peter.com,',2),(38,107,1,'LV','2022-11-24 13:41:02','','',1),(39,107,0,'LV','2022-11-24 13:41:02','','zxcvzxcv',2),(39,107,0,'LV','2022-11-24 13:41:02','','asfasdf',3),(40,108,1,'LV','2022-11-24 14:26:11','','',1),(41,109,1,'LV','2022-11-30 10:51:54','','',1),(42,110,1,'LV','2022-11-30 21:19:58','','',1),(43,111,1,'LV','2022-12-14 06:17:26','','',1);
+INSERT INTO `proy_proyectoreportes` VALUES (44,112,1,'LV','2022-12-18 09:38:54','','',1);
 /*!40000 ALTER TABLE `proy_proyectoreportes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -661,7 +708,7 @@ CREATE TABLE `util_reportes` (
   `desDirReporte` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`codUtilReportes`) USING BTREE,
   UNIQUE KEY `XPKUtil_Reportes` (`codUtilReportes`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -670,12 +717,12 @@ CREATE TABLE `util_reportes` (
 
 LOCK TABLES `util_reportes` WRITE;
 /*!40000 ALTER TABLE `util_reportes` DISABLE KEYS */;
-INSERT INTO `util_reportes` VALUES (1,'Reporte de análisis de restricciones',NULL),(5,'Reporte de análisis de restricciones',NULL),(10,'Reporte de análisis de restricciones',NULL),(11,'Reporte de avance gráfico',NULL),(12,'Reporte de análisis de restricciones',NULL),(13,'Reporte de avance gráfico',NULL),(14,'Reporte de análisis de restricciones',NULL),(15,'Reporte de avance gráfico',NULL),(16,'Reporte de análisis de restricciones',NULL),(17,'Reporte de análisis de restricciones',NULL),(18,'Reporte de avance gráfico',NULL),(19,'Reporte de análisis de restricciones',NULL),(36,'Reporte de análisis de restricciones',NULL),(37,'Reporte de análisis de restricciones',NULL),(38,'Reporte de análisis de restricciones',NULL),(39,'Reporte de avance gráfico',NULL),(40,'Reporte de análisis de restricciones',NULL),(41,'Reporte de análisis de restricciones',NULL),(42,'Reporte de análisis de restricciones',NULL),(43,'Reporte de análisis de restricciones',NULL);
+INSERT INTO `util_reportes` VALUES (1,'Reporte de análisis de restricciones',NULL),(5,'Reporte de análisis de restricciones',NULL),(10,'Reporte de análisis de restricciones',NULL),(11,'Reporte de avance gráfico',NULL),(12,'Reporte de análisis de restricciones',NULL),(13,'Reporte de avance gráfico',NULL),(14,'Reporte de análisis de restricciones',NULL),(15,'Reporte de avance gráfico',NULL),(16,'Reporte de análisis de restricciones',NULL),(17,'Reporte de análisis de restricciones',NULL),(18,'Reporte de avance gráfico',NULL),(19,'Reporte de análisis de restricciones',NULL),(36,'Reporte de análisis de restricciones',NULL),(37,'Reporte de análisis de restricciones',NULL),(38,'Reporte de análisis de restricciones',NULL),(39,'Reporte de avance gráfico',NULL),(40,'Reporte de análisis de restricciones',NULL),(41,'Reporte de análisis de restricciones',NULL),(42,'Reporte de análisis de restricciones',NULL),(43,'Reporte de análisis de restricciones',NULL),(44,'Reporte de análisis de restricciones',NULL);
 /*!40000 ALTER TABLE `util_reportes` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Dumping routines for database 'appdb13'
+-- Dumping routines for database 'appdb14'
 --
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -687,4 +734,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-12-14 12:06:57
+-- Dump completed on 2022-12-18  9:41:22
