@@ -225,6 +225,7 @@
         </div>
       </div>
     </div>
+    
     <AddFront :rows="rows" v-if="modalName === 'addFront'" @closeModal="closeModal" @addFront="addFront" />
     <AddPhase :rows="rows" v-if="modalName === 'addPhase'" @closeModal="closeModal" @addFront="addPhase" />
     <DeleteFront :rows="rows" v-if="modalName === 'deleteFront'" @closeModal="closeModal" @deleteFront="deleteFront" />
@@ -241,7 +242,7 @@
       @closeModal="closeModal"
       @confirmStatus="duplicate"
     />
-    <RestrictionPerson :rows="rows" v-if="personalizeOpen === true" @closeModal="closeModal" @addRestriction="addRestriction" />
+    <RestrictionPerson :restriction="restriction" v-if="personalizeOpen === true" @closeModal="closeModal" @addRestriction="addRestriction" />
   </div>
 </template>
 <script>
@@ -428,16 +429,22 @@ export default {
     addRowModal: function(payload) { 
       this.openModal({param: 'addRow', frontId: payload.frontId, phaseId: payload.phaseId})
     },
-    addRestriction: function(options) { 
-      this.$store.getters.addRestriction(options)
-      this.closeModal();
+    addRestriction: function( options) { 
+      if(options) {
+        store.dispatch('Set_Restriction', options); 
+      } 
+      this.$store.getters.addRestriction_P(options);  
+      this.closeModal(); 
     }
   },
   computed: {
+    restriction: function() {
+      return this.$store.state.Restrictionlist_P;
+    },
     isDisabled: function () {
       return this.rows.length > 0 ? false : true;
     },
-    rows: function() {
+    rows: function() { 
       return this.$store.state.whiteproject_rows;
     },
     restrictionOption: function () {
@@ -452,7 +459,8 @@ export default {
   },
   mounted: function() {
     store.dispatch('get_front')
-    console.log(this.$store.state.whiteproject_rows)
+    store.dispatch('get_Restriction_P');
+    
   }
 };
 </script>

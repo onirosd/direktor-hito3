@@ -77,15 +77,13 @@ export default {
       this.material = payload.value;
     },
     getOption: function () {
-      const options = [];
+      const options = []; 
       this.$store.state.Restrictionlist.map((row) => {
-
         const temp = {};
         temp["value"] = row.value;
         temp["name"] = row.value;
         options.push(temp);
       });
-      console.log(options);
       this.options = options;
       return options
     },

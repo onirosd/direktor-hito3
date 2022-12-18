@@ -25,15 +25,15 @@
       <div class="flex justify-between">
         <button
         class="h-14 sm:w-full rounded px-8 text-base leading-4 m-10 bg-orange text-white"
-        @click="$emit('addRestriction', items)"
+        @click="$emit('addRestriction',  items)"
       >
-        Ok
+        Change
       </button>
       <button
         class="h-14 sm:w-full rounded px-8 text-base leading-4 mt-10 bg-orange text-white"
-        @click="$emit('closemodal')"
+        @click="$emit('addRestriction', 0)"
       >
-        Cancel
+        Reset
       </button>
       </div>
       
@@ -42,6 +42,8 @@
 
 <script>
 import Modal from "./Modal.vue";
+import store from "../store";
+
 
 export default {
   name: "add-front-component",
@@ -49,15 +51,13 @@ export default {
     Modal,  
   },
   props: {
-    rows: Array,
+    restriction: Array,
   },
   data: function () {
     return { 
       frontName: '',
       isOpen: false,
-      items:[
-        { value: ""}
-      ]
+      items:[], 
     };
   },
   methods: {
@@ -66,7 +66,23 @@ export default {
     },
     addRow: function () {
       this.items.push({value:""})
+    },
+    getRestrictionPerson: function () {
+      const options = []; 
+      this.restriction.map((row) => { 
+        const temp = {};
+        temp["value"] = row.desTipoRestricciones; 
+        options.push(temp);
+      }); 
+      this.items = options;  
+      return options
+    },
+    Reset: function(){
+      $emit('closeModal');
     }
-  },
+  }, 
+  mounted: function () {
+    this.getRestrictionPerson();
+  }
 };
 </script>

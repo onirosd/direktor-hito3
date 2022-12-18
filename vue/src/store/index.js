@@ -113,7 +113,8 @@ const store = createStore({
 
       ]
     },
-    Restrictionlist:[]
+    Restrictionlist:[],
+    Restrictionlist_P:[]
   },
   getters: {
     users: (state) => (id) => {
@@ -122,8 +123,13 @@ const store = createStore({
       return row.users;
     },
     addRestriction:(state) => (items) => {
-      state.Restrictionlist = items;
-      console.log(state.Restrictionlist);
+      state.Restrictionlist = items; 
+    },
+    addRestriction_P:(state) => (items) => {
+      if(items === 0) {
+        state.Restrictionlist_P = state.Restrictionlist_P;
+      }
+      state.Restrictionlist_P = items; 
     },
     data: (state) => (id) => {
       const row = state.restriction_rows.find((row) => row.id === id);
@@ -148,8 +154,7 @@ const store = createStore({
       return item.hideCols;
     },
   },
-  actions: {
-
+  actions: { 
     get_cargos({commit}) {
       return axiosClient.get('/get_cargos')
       .then(res => {
@@ -271,6 +276,9 @@ const store = createStore({
         date: savedate
       }
       return axiosClient.post('/add_front', savedata)
+      .then(res => {
+        console.log(res.data);
+      })
     },
     add_phase({commit}, phasedata) {
       const nowdate = new Date();
@@ -288,18 +296,35 @@ const store = createStore({
         console.log(res.data)
       })
     },
-    get_front({commit}){
-
-      // const anaresdata = { id: sessionStorage.getItem('constraintid') }
-      const anaresdata = 107;
+    Set_Restriction({commit}, data) { 
+      const num = data.length;
+      const setData = {
+        index: num,
+        data: data
+      }
+      return axiosClient.post('/add_restriction', setData)
+      .then(res => {
+        commit('Set_Restriction', res.data)
+      })
+    },
+    get_front({commit}){ 
+      const anaresdata = { id: sessionStorage.getItem('constraintid') }
+      // const anaresdata = 107;
       return axiosClient.post('get_front', anaresdata)
       .then(res => {
-        console.log(res.data);
         commit('setAnaResData', res.data)
+      })
+    },
+    get_Restriction_P({commit}){  
+      return axiosClient.get('get_restriction_p')
+      .then(res => {
+        commit('Set_Restriction', res.data)
+        
       })
     }
   },
   mutations: {
+
     increment(state) {
       state.count++;
     },
@@ -521,7 +546,13 @@ const store = createStore({
     },
     setAnaResData(state, ResData) {
       state.whiteproject_rows = ResData
-    }
+    },
+    Set_Restriction(state, ResData) { 
+      state.Restrictionlist_P = ResData; 
+      ResData.map( (i) => {
+        state.Restrictionlist.push({value: i.desTipoRestricciones})
+      })
+    },
   },
   modules: {},
 });

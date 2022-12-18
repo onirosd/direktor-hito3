@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 use App\Models\RestrictionMember;
 use App\Models\Restriction;
 use App\Models\ProjectUser;
+use App\Models\RestrictionPerson;
 use App\Models\RestrictionFront;
 use App\Models\RestrictionPhase;
 use Illuminate\Http\Request;
+
 
 class RestrictionController extends Controller
 {
@@ -61,6 +63,7 @@ class RestrictionController extends Controller
         $frontdata = RestrictionFront::where('codProyecto', $request['id'])->get();
         $restriction = Restriction::where('codProyecto', $request['id'])->get();
         $anaresdata = [];
+        
         foreach($frontdata as $eachdata) {
             $tempdata = [
                 'id' => $eachdata['codAnaResFrente'],
@@ -68,6 +71,7 @@ class RestrictionController extends Controller
                 'isOpen' => false,
                 'info' => [],
             ];
+           
             $phasedata = RestrictionPhase::where('codAnaResFrente', $eachdata['codAnaResFrente'])->get();
             foreach($phasedata as $sevdata) {
                 $temp = [
@@ -86,11 +90,36 @@ class RestrictionController extends Controller
                     'responsible_area' => "Arquitectura",
                     'applicant' => "Lizeth Marzano",
                 ];
+                
                 array_push($temp['tableData'], $temptable);
                 array_push($tempdata['info'], $temp);
             }
             array_push($anaresdata, $tempdata);
         }
         return $anaresdata;
+    }
+
+    public function get_restriction_p(Request $request) { 
+        $TipoRestricciones = RestrictionPerson::where('codTipoRestricciones', '>=', 0)->get();
+        return $TipoRestricciones;
+    }
+    
+    public function add_restriction(Request $request) { 
+        $TipoRestricciones = RestrictionPerson::where('codTipoRestricciones', '>=', 0)->delete();
+        $index = $request['index'];
+        for ($i=0; $i < $index; $i++) { 
+            if($request['data'][$i]['value'] == '') {
+                $i -= 1;
+                $index -= 1;
+            }
+            else {
+                $resFront = RestrictionPerson::create([
+                    'codTipoRestricciones' => $i,
+                    'desTipoRestricciones' => $request['data'][$i]['value'],
+                ]);
+            } 
+        } 
+        $TipoRestricciones = RestrictionPerson::where('codTipoRestricciones', '>=', 0)->get();
+        return $TipoRestricciones;
     }
 }
