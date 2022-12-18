@@ -58,9 +58,12 @@ class RestrictionController extends Controller
     }
 
     public function get_front(Request $request) {
-        $frontdata = RestrictionFront::where('codProyecto', $request['id'])->get();
-        $restriction = Restriction::where('codProyecto', $request['id'])->get();
+        // $frontdata = RestrictionFront::where('codProyecto', $request['id'])->get();
+        // $restriction = Restriction::where('codProyecto', $request['id'])->get();
+        $frontdata = RestrictionFront::where('codProyecto', '107')->get();
+        $restriction = Restriction::where('codProyecto', '107')->get();
         $anaresdata = [];
+        
         foreach($frontdata as $eachdata) {
             $tempdata = [
                 'id' => $eachdata['codAnaResFrente'],
@@ -68,6 +71,7 @@ class RestrictionController extends Controller
                 'isOpen' => false,
                 'info' => [],
             ];
+           
             $phasedata = RestrictionPhase::where('codAnaResFrente', $eachdata['codAnaResFrente'])->get();
             foreach($phasedata as $sevdata) {
                 $temp = [
@@ -86,6 +90,7 @@ class RestrictionController extends Controller
                     'responsible_area' => "Arquitectura",
                     'applicant' => "Lizeth Marzano",
                 ];
+                
                 array_push($temp['tableData'], $temptable);
                 array_push($tempdata['info'], $temp);
             }
