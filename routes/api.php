@@ -46,5 +46,7 @@ Route::post('/add_Actividad', [RestrictionController::class, 'add_Actividad']);
 Route::post('/get_front', [RestrictionController::class, 'get_front']);
 Route::get('/get_restriction_p', [RestrictionController::class, 'get_restriction_p']);
 Route::post('/add_restriction',[RestrictionController::class, 'add_restriction']);
+Route::post('/delete_front',[RestrictionController::class, 'delete_front']);
+
 
 Route::get('/get_cargos', [\App\Http\Controllers\UtilsController::class, 'get_cargos']);

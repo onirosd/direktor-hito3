@@ -126,6 +126,22 @@ class RestrictionController extends Controller
         return $anaresdata;
     }
 
+    public function delete_front(Request $request) {
+        if ($request['phaseLen'] == 0 || $request['phaseId'] == 'all') {
+            RestrictionFront::where('codAnaResFrente', $request['frontId'])->delete();
+            try {
+                RestrictionPhase::where('codAnaResFrente', $eachdata['frontId'])->delete();
+            } catch (\Throwable $th) {}
+            
+        } else {
+            $frontdata = RestrictionFront::where('codAnaResFrente', $request['frontId'])->get(); 
+            foreach($frontdata as $eachdata) {
+                RestrictionPhase::where('codAnaResFase', $eachdata['phaseId'])->delete();
+            }
+        }
+        return $request;
+    }
+
     public function get_restriction_p(Request $request) { 
         $TipoRestricciones = RestrictionPerson::where('codTipoRestricciones', '>=', 0)->get();
         return $TipoRestricciones;

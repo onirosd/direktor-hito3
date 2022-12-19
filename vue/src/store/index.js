@@ -334,6 +334,19 @@ const store = createStore({
         commit('setAnaResData', res.data)
       })
     },
+    delete_font({commit}, data){
+      const anaresdata = { id: sessionStorage.getItem('constraintid') }
+      const deleteData = {
+        frontId : data.frontId,
+        phaseId : data.phaseId,
+        phaseLen : data.phaseLen,
+        id: anaresdata
+      }
+      return axiosClient.post('delete_front', deleteData)
+        .then(res => { 
+        commit('deleteFront', data)
+      })
+    },
     get_Restriction_P({commit}){  
       return axiosClient.get('get_restriction_p')
       .then(res => {

@@ -389,10 +389,7 @@ export default {
       this.closeModal();
     },
     deleteFront: function (payload) {
-      this.$store.commit({
-        type: 'deleteFront',
-        ...payload,
-      });
+      store.dispatch('delete_font', payload)
       this.closeModal();
     },
     addRow: function (payload) {
