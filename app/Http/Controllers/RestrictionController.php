@@ -127,6 +127,7 @@ class RestrictionController extends Controller
     }
 
     public function delete_front(Request $request) {
+        
         if ($request['phaseLen'] == 0 || $request['phaseId'] == 'all') {
             RestrictionFront::where('codAnaResFrente', $request['frontId'])->delete();
             try {
@@ -136,7 +137,7 @@ class RestrictionController extends Controller
         } else {
             $frontdata = RestrictionFront::where('codAnaResFrente', $request['frontId'])->get(); 
             foreach($frontdata as $eachdata) {
-                RestrictionPhase::where('codAnaResFase', $eachdata['phaseId'])->delete();
+                RestrictionPhase::where('codAnaResFase', $request['phaseId'])->delete();
             }
         }
         return $request;
