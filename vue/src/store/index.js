@@ -296,6 +296,24 @@ const store = createStore({
         console.log(res.data)
       })
     },
+    add_Actividad({commit}, data) {
+      const nowdate = new Date();
+      const month = nowdate.getMonth()/1+1;
+      const savedate = nowdate.getFullYear()+'-'+month+'-'+nowdate.getDate()+
+      ' '+ nowdate.getHours()+':'+nowdate.getMinutes()+':'+nowdate.getSeconds();
+      const savedata = {
+        name: data.actividadName,
+        frontid: data.frontId,
+        phaseid: data.phaseId,
+        projectid: sessionStorage.getItem('constraintid'),
+        date: savedate
+      }
+      console.log(savedata);
+      return axiosClient.post('/add_Actividad', savedata)
+      .then(res => {
+        console.log(res.data)
+      })
+    },
     Set_Restriction({commit}, data) { 
       const num = data.length;
       const setData = {
@@ -311,7 +329,8 @@ const store = createStore({
       const anaresdata = { id: sessionStorage.getItem('constraintid') }
       // const anaresdata = 107;
       return axiosClient.post('get_front', anaresdata)
-      .then(res => {
+        .then(res => {
+          console.log(res.data);
         commit('setAnaResData', res.data)
       })
     },

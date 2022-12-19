@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\RestrictionMember;
 use App\Models\Restriction;
 use App\Models\ProjectUser;
+use App\Models\PhaseActividad;
 use App\Models\RestrictionPerson;
 use App\Models\RestrictionFront;
 use App\Models\RestrictionPhase;
@@ -59,6 +60,25 @@ class RestrictionController extends Controller
         return $request;
     }
 
+    public function add_Actividad(Request $request) { 
+        $codAnaRes = Restriction::where('codProyecto', $request['projectid'])->get('codAnaRes');
+
+        $resFront = PhaseActividad::create([ 
+            'desActividad' => $request['name'],
+            'desRestriccion' => "",
+            'codTipoRestriccion' => 0,
+            'dayFechaRequerida' => $request['date'],
+            // 'idUsuarioResponsable' => 'Lizeth Marzano',
+            // 'desAreaResponsable' => 'Lizeth Marzano',
+            // 'codEstadoActividad' => 'En proceso',
+            // 'codUsuarioSolicitante' => 'Lizeth Marzano',
+            'codAnaResFase' => $request['phaseid'],
+            'codAnaResFrente' => $request['frontid'],
+            'codProyecto' => $request['projectid'], 
+            'codAnaRes' => $codAnaRes[0]['codAnaRes'],
+        ]);
+        return $request; 
+    }
     public function get_front(Request $request) {
         $frontdata = RestrictionFront::where('codProyecto', $request['id'])->get();
         $restriction = Restriction::where('codProyecto', $request['id'])->get();
@@ -84,16 +104,21 @@ class RestrictionController extends Controller
                     'tableData' => [],
                     'hideCols' => [],
                 ];
-                $temptable = [
-                    'exercise' => "Lorem ipsum dolor sit amet, consectetu...",
-                    'restriction' => "Lorem ipsum dolor sit amet, consectetu...",
-                    'date_required' => "23/07/2020",
-                    'responsible' => "Lizeth Marzano",
-                    'responsible_area' => "Arquitectura",
-                    'applicant' => "Lizeth Marzano",
-                ];
-                
-                array_push($temp['tableData'], $temptable);
+                $Activedata = PhaseActividad::where('codAnaResFase','=',  $sevdata['codAnaResFase'])
+                                    ->where('codAnaResFrente','=', $eachdata['codAnaResFrente'])
+                                    ->get();
+                    foreach($Activedata as $data) {
+                        $temptable = [
+                            'exercise' => $data['desActividad'],
+                            // 'restriction' => $data['desRestriccion'],
+                            'restriction' => "restriction",
+                            'date_required' =>$data['dayFechaRequerida'],
+                            'responsible' => $data['desActividad'],
+                            'responsible_area' => "Arquitectura",
+                            'applicant' => "Lizeth Marzano",
+                        ];
+                        array_push($temp['tableData'], $temptable);
+                    }
                 array_push($tempdata['info'], $temp);
             }
             array_push($anaresdata, $tempdata);

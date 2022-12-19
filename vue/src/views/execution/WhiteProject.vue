@@ -153,7 +153,8 @@
                   {{ item.delayed }}
                 </span>
               </div>
-              <div v-if="item.tableData.length > 0" class="mt-8">
+              <div class="mt-8">
+                <!-- <div v-if="item.tableData.length > 0" class="mt-8"> -->
                 <div class="flex items-center mb-6 cursor-pointer" @click="openModal({param: 'toggleColumn', frontId: row.id, phaseId: item.id})">
                   <img
                     src="../../assets/images/icons/visibility.svg"
@@ -227,7 +228,7 @@
     </div>
     
     <AddFront :rows="rows" v-if="modalName === 'addFront'" @closeModal="closeModal" @addFront="addFront" />
-    <AddPhase :rows="rows" v-if="modalName === 'addPhase'" @closeModal="closeModal" @addFront="addPhase" />
+    <AddPhase :rows="rows" v-if="modalName === 'addPhase'" @closeModal="closeModal" @addPhase="addPhase" />
     <DeleteFront :rows="rows" v-if="modalName === 'deleteFront'" @closeModal="closeModal" @deleteFront="deleteFront" />
     <ToggleColumn :hideCols="hideCols" v-if="modalName == 'toggleColumn'" @closeModal="closeModal" @setColumnsStatus="setColumnsStatus" />
     <DownloadReport v-if="modalName == 'downloadReport'" @closeModal="closeModal" />
@@ -395,13 +396,20 @@ export default {
       this.closeModal();
     },
     addRow: function (payload) {
-      console.log(this.frontId)
+      
       this.$store.commit({
         type: 'addScrollTableRow',
         frontId: this.frontId,
         phaseId: this.phaseId,
         ...payload,
       });
+
+      const data = {
+        frontId: this.frontId, 
+        phaseId: this.phaseId,
+        actividadName: payload.exercise,
+      }
+      store.dispatch('add_Actividad', data)
       this.closeModal();
     },
     delRow: function (payload) {
@@ -458,9 +466,8 @@ export default {
     }
   },
   mounted: function() {
-    store.dispatch('get_front')
+    store.dispatch('get_front');
     store.dispatch('get_Restriction_P');
-    
   }
 };
 </script>

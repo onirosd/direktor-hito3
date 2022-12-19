@@ -45,7 +45,7 @@
       <button
         class="h-14 sm:w-full rounded px-8 text-base leading-4 mt-10 bg-orange text-white"
         @click="
-          $emit('addFront', {
+          $emit('addPhase', {
             frontId: frontId,
             frontName: frontName,
             status: selStatus,
