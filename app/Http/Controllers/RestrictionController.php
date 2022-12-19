@@ -60,10 +60,10 @@ class RestrictionController extends Controller
     }
 
     public function get_front(Request $request) {
-        // $frontdata = RestrictionFront::where('codProyecto', $request['id'])->get();
-        // $restriction = Restriction::where('codProyecto', $request['id'])->get();
-        $frontdata = RestrictionFront::where('codProyecto', '107')->get();
-        $restriction = Restriction::where('codProyecto', '107')->get();
+        $frontdata = RestrictionFront::where('codProyecto', $request['id'])->get();
+        $restriction = Restriction::where('codProyecto', $request['id'])->get();
+        // $frontdata = RestrictionFront::where('codProyecto', '107')->get();
+        // $restriction = Restriction::where('codProyecto', '107')->get();
         $anaresdata = [];
         
         foreach($frontdata as $eachdata) {
