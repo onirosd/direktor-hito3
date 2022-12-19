@@ -307,8 +307,7 @@ const store = createStore({
         phaseid: data.phaseId,
         projectid: sessionStorage.getItem('constraintid'),
         date: savedate
-      }
-      console.log(savedata);
+      } 
       return axiosClient.post('/add_Actividad', savedata)
       .then(res => {
         console.log(res.data)
@@ -344,6 +343,7 @@ const store = createStore({
       }
       return axiosClient.post('delete_front', deleteData)
         .then(res => { 
+          console.log(res.data);
         commit('deleteFront', data)
       })
     },
@@ -458,14 +458,18 @@ const store = createStore({
       }
     },
     addScrollTableRow(state, payload) {
+      const nowdate = new Date();
+      const month = nowdate.getMonth()/1+1;
       const row = state.whiteproject_rows.find((row) => row.id === payload.frontId).info.find((item) => item.id === payload.phaseId);
+      const savedate = nowdate.getFullYear()+'-'+month+'-'+nowdate.getDate()+
+      ' '+ nowdate.getHours()+':'+nowdate.getMinutes()+':'+nowdate.getSeconds();
       const temp = {
         exercise: payload.exercise,
-        restriction: "",
-        date_required: "",
-        responsible: "",
-        responsible_area: "",
-        applicant: "",
+        restriction: "restriction",
+        date_required: savedate,
+        responsible: "veremos",
+        responsible_area: "Arquitectura",
+        applicant: "Lizeth Marzano",
       };
       row.tableData.push(temp);
     },
