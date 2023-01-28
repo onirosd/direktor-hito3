@@ -74,13 +74,13 @@ export default {
       this.$emit('openModal', {param: payload.param, id: payload.id});
     },
     ConstraintAnalysis: function(id) {
-      
-      this.$emit('openConstraintPage', {id: id})
+
+      this.$emit('openConstraintPage', {id: id, nameProy: this.row.projectName })
     }
   },
   directives: {
     ClickOutside,
   },
-  
+
 };
 </script>

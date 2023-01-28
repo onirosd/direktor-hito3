@@ -13,7 +13,7 @@
 <template>
   <div id="app" class="tracking-tight font-semibold text-activeText">
     <div v-if="layout === 'home'">
-      <Header />
+      <Header :username="getUsername" />
       <MobileMenu v-if="menu" />
       <div class="flex" :class="{ 'sm:hidden': menu }">
         <Sidebar :openSidebar="openSidebar" @toggleSidebar="toggleSidebar" />
@@ -21,7 +21,8 @@
           class="h-screen pt-16 sm:w-full sm:pt-14 sm:bg-[#F6F8FE]"
           :class="openSidebar ? 'w-content' : 'w-full'"
         >
-          <div class="h-full px-16 sm:px-8 py-8 overflow-y-auto">
+        <!-- h-full  => esto hace que sea centrado y full -->
+          <div class="max-h-[39rem] px-16 sm:px-8 py-8 overflow-y-auto">
             <router-view />
           </div>
         </div>
@@ -66,6 +67,7 @@ export default {
   data: function () {
     return {
       openSidebar: true,
+      // username   : ""
     };
   },
   methods: {
@@ -75,7 +77,8 @@ export default {
     handleResize: function() {
       window.innerWidth <= 1000 && (this.openSidebar = false);
       window.innerWidth > 1000 && (this.openSidebar = true);
-    }
+    },
+
   },
   computed: {
     layout: function () {
@@ -84,10 +87,18 @@ export default {
     menu: function () {
       return this.$store.state.menu;
     },
+    getUsername: function() {
+
+      return this.$store.state.user.data.name +" "+ this.$store.state.user.data.lastname
+
+    }
   },
   mounted: function() {
     window.addEventListener('resize', this.handleResize);
     this.handleResize();
+    this.$store.dispatch('getUserName');
+    // this.getUsername();
+
   },
 };
 </script>

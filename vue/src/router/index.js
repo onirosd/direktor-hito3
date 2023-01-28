@@ -9,6 +9,7 @@ import AuthLayout from "../components/Ant_AuthLayout.vue";
 import PageLayout from "../components/Ant_PageComponent.vue";
 import Restrictions from "../views/execution/Restrictions.vue";
 import WhiteProject from "../views/execution/WhiteProject.vue";
+import AddRestrictions from "../views/execution/AddRestrictions.vue";
 import Graphic from "../views/execution/Graphic.vue";
 import Person from "../views/person/Person.vue";
 import Person_edit from "../views/person/Person_edit.vue";
@@ -66,6 +67,14 @@ if(sessionStorage.getItem('Id')) {
           component: WhiteProject,
           meta: { layout: 'home' },
         },
+
+        {
+          path: "/execution/restrictions_analysis/addRestrictions",
+          name: "add_restrictions",
+          component: AddRestrictions,
+          meta: { layout: 'home' },
+        },
+
         {
           path: "/execution/graphic_advance",
           name: "graphic_advance",

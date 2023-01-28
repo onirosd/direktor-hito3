@@ -101,4 +101,17 @@ class AuthController extends Controller
         return $project;
     }
 
+    public function upd_person (Request $request) {
+          $res = User::where('id', $request['id'])->update([
+            'celular' => $request['celular'],
+            'email'   => $request['email'],
+            'lastname' => $request['lastname'],
+            'name'     => $request['name'],
+            'nombreempresa' => $request['nombreempresa'],
+            'codCargo' => $request['codcargo']
+          ]);
+
+        return $res;
+    }
+
 }

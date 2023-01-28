@@ -70,7 +70,7 @@
       <SecondStep :class="status === 2 ? '' : 'hidden'" ref="step2" />
       <ThirdStep :class="status === 3 ? '' : 'hidden'" ref="step3" />
       <FooterStep :buttons="['Cancelar', createstatus?'Crear proyecto':'Editar proyecto']" :flag="footerFlag" :text="'*Campos obligatorios'" @cancel="cancel" @next="nextStatus" :class="status === 4 ? 'hidden' : ''"  />
-    
+
       <div class="flex flex-col" :class="status === 4 ? '' : 'hidden'">
         <Breadcrumb :paths="['Inicio', 'Tus Proyectos']" :settingFlag="false" />
         <Indicator
@@ -198,10 +198,44 @@ export default {
     };
   },
   methods: {
+
+    cleanInputs: function (){
+
+            this.$refs.step1.projectName= "";
+            this.$refs.step1.business= "";
+            this.$refs.step1.term= "";
+            this.$refs.step1.coveredArea= "";
+            this.$refs.step1.projectType= "";
+            this.$refs.step1.startDate= "";
+            this.$refs.step1.referenceAmount="";
+            this.$refs.step1.area="";
+            this.$refs.step1.builtArea= "";
+            this.$refs.step1.country= "Peru";
+            this.$refs.step1.address="";
+            this.$refs.step1.ubigeo="";
+            this.$refs.step1.codMoneda= "";
+
+
+            this.$refs.step2.users   = [];
+            this.$refs.step2.areaIntegrantes = [];
+            this.$refs.step2.rolIntegrantes  = [];
+            this.$refs.step3.reports = [];
+
+            this.$refs.step1.searchText="";
+            this.$refs.step1.searchTextUbigeo = "";
+            // this.$refs.step1.placeholder="Seleccionar Ubicación";
+
+
+
+
+
+
+
+    },
     openModal: function (param) {
       if (typeof param !== "string") {
         this.rowId = param.id;
-        param = param.param;
+        param      = param.param;
       }
       this.modalName = param;
     },
@@ -214,7 +248,7 @@ export default {
         this.$store.commit("copyRestriction");
         this.successHeader = "¡Proyecto agregado con éxito!";
         this.openModal("success");
-        
+
         store.dispatch('get_project')
         this.$store.commit("copyRestriction");
         this.status = 4
@@ -239,7 +273,7 @@ export default {
             break;
           case 3:
             this.$store.state.projectUsers = this.$refs.step2.users;
-            
+
             break;
           case 4:
             console.log(this.$refs.step3.reports)
@@ -247,14 +281,16 @@ export default {
             const month = nowdate.getMonth()/1+1;
             const savedate = nowdate.getFullYear()+'-'+month+'-'+nowdate.getDate()+
             ' '+ nowdate.getHours()+':'+nowdate.getMinutes()+':'+nowdate.getSeconds();
+            var dayFechaInicio = new Date(this.$refs.step1.startDate);
+
             const projectData = {
               projectName: this.$refs.step1.projectName,
               business: this.$refs.step1.business,
               term: this.$refs.step1.term,
               coveredArea: this.$refs.step1.coveredArea,
               projectType: this.$refs.step1.projectType,
-              district: this.$refs.step1.district,
-              startDate: this.$refs.step1.startDate,
+              district: this.$refs.step1.ubigeo,
+              startDate: dayFechaInicio.toISOString().slice(0, 10),
               referenceAmount: this.$refs.step1.referenceAmount,
               area: this.$refs.step1.area,
               builtArea: this.$refs.step1.builtArea,
@@ -265,7 +301,8 @@ export default {
               userInvData: this.$refs.step2.users,
               reports: this.$refs.step3.reports,
               typeFrequency:this.$refs.step3.TypeFrequency,
-              usersum: ''
+              usersum: '',
+              codMoneda: this.$refs.step1.codMoneda,
             };
             projectData.userInvData.forEach(user => {
               projectData.usersum+=user.userEmail+', '
@@ -274,7 +311,9 @@ export default {
             .catch((error) => {
               console.log(error)
             });
-            
+
+            this.cleanInputs()
+
             store.dispatch('get_project')
             this.$store.commit("copyRestriction");
             break;
@@ -296,6 +335,8 @@ export default {
             const month = nowdate.getMonth()/1+1;
             const savedate = nowdate.getFullYear()+'-'+month+'-'+nowdate.getDate()+
             ' '+ nowdate.getHours()+':'+nowdate.getMinutes()+':'+nowdate.getSeconds();
+            var dayFechaInicio = new Date(this.$refs.step1.startDate);
+
             const newprojectData = {
               projectId: this.projectId,
               projectName: this.$refs.step1.projectName,
@@ -303,8 +344,9 @@ export default {
               term: this.$refs.step1.term,
               coveredArea: this.$refs.step1.coveredArea,
               projectType: this.$refs.step1.projectType,
-              district: this.$refs.step1.district,
-              startDate: this.$refs.step1.startDate,
+              codMoneda: this.$refs.step1.codMoneda,
+              district: this.$refs.step1.ubigeo,
+              startDate: dayFechaInicio.toISOString().slice(0, 10),
               referenceAmount: this.$refs.step1.referenceAmount,
               area: this.$refs.step1.area,
               builtArea: this.$refs.step1.builtArea,
@@ -314,74 +356,115 @@ export default {
               userInvData: this.$refs.step2.users,
               reports: this.$refs.step3.reports,
               typeFrequency:this.$refs.step3.TypeFrequency,
-              usersum: ''
+              usersum: '',
+              codMoneda: this.$refs.step1.codMoneda,
             }
             newprojectData.userInvData.forEach(user => {
               newprojectData.usersum+=user.userEmail+', '
             });
             store.dispatch('edit_project', newprojectData)
-          
+
+            this.cleanInputs()
+
             store.dispatch('get_project')
             this.$store.commit("copyRestriction");
+
             break;
         }
-        
+
       }
     },
     editProject: function(payload) {
+
+      /* El edit ocurre luego de que se hayan cargado las tablas de utilitarios*/
+      store.dispatch('get_utilitarios').then((response) => {
+
       this.status = 1
-      this.createstatus = false;
-      this.projectId = payload;
-      const projects = this.$store.state.projects;
-      const reports = [];
-      
-      this.$refs.step3.reports =[]
+      this.createstatus   = false;
+      this.projectId      = payload;
+      const projects      = this.$store.state.projects;
+      const reports       = [];
+
+      this.$refs.step3.reports       = []
       this.$store.state.projectUsers = []
+
+        /* Llenamos las listas desplegables para el step 1*/
+
+        this.$refs.step1.listaTiposproyectos = []
+        this.$refs.step1.listaUbigeos        = []
+        this.$refs.step1.listaMonedas        = []
+
+        this.$refs.step1.listaTiposproyectos = this.$store.state.tiposproyectos;
+        this.$refs.step1.listaUbigeos        = this.$store.state.ubigeos;
+        this.$refs.step1.listaMonedas        = this.$store.state.moneda;
+
+        /* Llenamos las listas desplegables para el step 1*/
+
+
+        /* Limpiamos y llenamos de nuevo las listas para el step 2*/
+        const users = [];
+
+        this.$refs.step2.areaIntegrantes = [];
+        this.$refs.step2.rolIntegrantes = [];
+
+        let tareaintegrante  = this.$store.state.areaintegrante;
+        for (let index = 0; index < tareaintegrante.length; index++) {
+          this.$refs.step2.areaIntegrantes.push({value: tareaintegrante[index]["codArea"], name: tareaintegrante[index]["desArea"]})
+        }
+
+        let trolintegrante   = this.$store.state.rolintegrante;
+        for (let index = 0; index < trolintegrante.length; index++) {
+          this.$refs.step2.rolIntegrantes.push({value: trolintegrante[index]["codRolIntegrante"], name: trolintegrante[index]["desRolIntegrante"]})
+        }
+        /* Limpiamos y llenamos de nuevo las listas para el step 2*/
+
       projects.forEach((pro) =>{
         if(pro.codProyecto == payload)
         {
+
+            var dayFechainicio = new Date(pro.dayFechaInicio);
+
             this.$refs.step1.projectName=pro.desNombreProyecto;
             this.$refs.step1.business=pro.desEmpresa;
+            this.$refs.step1.searchText=pro.nombreEmpresa;
             this.$refs.step1.term=pro.numPlazo;
             this.$refs.step1.coveredArea=pro.numAreaTechado;
-            this.$refs.step1.projectType=pro.desTipoProyecto;
-            this.$refs.step1.district=pro.codUbigeo;
-            this.$refs.step1.startDate=pro.dayFechaInicio;
+            this.$refs.step1.projectType=pro.codTipoProyecto;
+            // this.$refs.step1.district=pro.codUbigeo;
+            this.$refs.step1.startDate=dayFechainicio;
             this.$refs.step1.referenceAmount=pro.numMontoReferencial;
             this.$refs.step1.area=pro.numAreaTechada;
             this.$refs.step1.builtArea=pro.numAreaConstruida;
             this.$refs.step1.country=pro.desPais;
             this.$refs.step1.address=pro.desDireccion;
+            this.$refs.step1.ubigeo=pro.codUbigeo;
+            this.$refs.step1.searchTextUbigeo = pro.desUbigeo;
+            this.$refs.step1.codMoneda= pro.codMoneda;
+            // this.$refs.step1.placeholder = pro.desUbigeo;
+
             const invusers=pro.desUsuarioCreacion.substr(0, pro.desUsuarioCreacion.length-1).split(', ');
-            //
-            //this.$store.state.projectUsers = invusers;
-            /* const newusers = [];
-            invusers.forEach((user) => {
-              const temp = {
-                userEmail: user,
-                userRole: '',
-                userArea: ''
-              }
-              newusers.push(temp)
-            })
-            this.$refs.step2.users = newusers
-            this.$store.state.projectUsers = newusers */
+
         }
       })
+
       store.dispatch('get_projectuser', payload)
       .then(() => {
-        const prousers = this.$store.state.currentprojectusers
-        const users = []
+
+        const prousers = this.$store.state.currentprojectusers;
+        /* Llenamos la lista de correos */
         prousers.forEach((user) => {
           const temp = {
             userEmail: user.desCorreo,
-            userRole: user.codRolIntegrante === 1?'Editor':'Visualizador',
-            userArea: user.desArea
+            userRole: user.codRolIntegrante,
+            userArea: user.codArea
           }
           users.push(temp)
         })
         this.$refs.step2.users = users
+        /* Llenamos la lista de correos */
+
       })
+
       store.dispatch('get_projectreport', payload)
       .then(() => {
         var tempstatus = false
@@ -411,10 +494,15 @@ export default {
           this.$refs.step3.reports.push(tempval)
         console.log(this.$refs.step3.reports)
       })
-      
+
+
+    });
+
+
+
     },
     viewProject: function(payload) {
-      
+
       const project = this.$store.state.projects[payload-1];
       const projectInfo = {
         projectName: project.desNombreProyecto,
@@ -434,10 +522,46 @@ export default {
     },
     cancel: function() {
       this.status = 4;
+      this.cleanInputs();
     },
     createNewProject: function() {
+
       this.createstatus = true;
-      this.status = 1
+      this.status = 1;
+      /* Despues de que obtenemos los datos de los utilitarios */
+      store.dispatch('get_utilitarios').then((response) => {
+
+          /* Llenamos las listas desplegables para el step 1*/
+            this.$refs.step1.listaTiposproyectos = []
+            this.$refs.step1.listaUbigeos        = []
+            this.$refs.step1.listaMonedas        = []
+
+            this.$refs.step1.listaTiposproyectos = this.$store.state.tiposproyectos;
+            this.$refs.step1.listaUbigeos        = this.$store.state.ubigeos;
+            this.$refs.step1.listaMonedas        = this.$store.state.moneda;
+          /* Llenamos las listas desplegables para el step 1*/
+
+
+          /* Llenamos las listas desplegables para el step 2*/
+            this.$refs.step2.areaIntegrantes  = [];
+            this.$refs.step2.rolIntegrantes   = [];
+          /* Lista del area del integrante */
+            let tareaintegrante  = this.$store.state.areaintegrante;
+              for (let index = 0; index < tareaintegrante.length; index++) {
+                this.$refs.step2.areaIntegrantes.push({value: tareaintegrante[index]["codArea"], name: tareaintegrante[index]["desArea"]})
+              }
+          /* Lista del rol del integrante */
+            let trolintegrante   = this.$store.state.rolintegrante;
+              for (let index = 0; index < trolintegrante.length; index++) {
+                this.$refs.step2.rolIntegrantes.push({value: trolintegrante[index]["codRolIntegrante"], name: trolintegrante[index]["desRolIntegrante"]})
+              }
+
+
+      });
+
+
+
+
     }
   },
   computed: {
@@ -452,6 +576,7 @@ export default {
     },
   },
   mounted: function() {
+    store.dispatch('get_infoPerson');
     store.dispatch('get_project')
     this.$store.commit("copyRestriction");
     this.status=4

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class RestrictionFront extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'codAnaResFrente',
         'desAnaResFrente',
@@ -19,5 +19,6 @@ class RestrictionFront extends Model
     ];
 
     protected $table = 'anares_frente';
+    protected $primaryKey = 'codAnaResFrente';
     public $timestamps = false;
 }

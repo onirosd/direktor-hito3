@@ -7,14 +7,14 @@
       <div class="flex w-full flex-col mb-4">
         <div class="flex flex-col">
           <span class="text-sm leading-6 mb-2"
-            >Selecciona lo que deseas eliminar</span
+            >Selecciona el frente que deseas eliminar.</span
           >
           <div class="relative">
             <input
               type="text"
               v-model="frontName"
               class="h-[52px] w-full px-4 rounded border border-[#8A9CC9] font-normal text-base text-activeText"
-              placeholder="Frente"
+              placeholder="Selecciona un frente"
             />
             <img
               src="../assets/images/icons/ic_arrow-down.svg"
@@ -28,14 +28,14 @@
         </div>
         <div v-if="selStatus && phaseLen > 0" class="mt-8 flex flex-col">
           <span class="text-sm leading-6 mb-2"
-            >¿Cuál frente deseas eliminar?</span
+            >¿ Que fase deseas eliminar ?</span
           >
           <div class="relative">
             <input
               type="text"
               v-model="phaseName"
               class="h-[52px] w-full px-4 rounded border border-[#8A9CC9] font-normal text-base text-activeText"
-              placeholder="Selecciona un frente"
+              placeholder="Selecciona una fase"
             />
             <img
               src="../assets/images/icons/ic_arrow-down.svg"
@@ -99,27 +99,30 @@ export default {
         this.phaseOpen = !this.phaseOpen;
     },
     selFrontOpt: function (payload) {
+      console.log(payload)
       this.selStatus = true;
       this.frontId = payload.value;
       this.frontName = payload.name;
       this.rows.map(row => {
-        if (row.id === this.frontId) {
-          this.phaseLen = row.info.length;
+        if (row.codFrente === this.frontId) {
+          this.phaseLen = row.listaFase.length;
         }
       });
       this.isOpen = false;
     },
     selPhaseOpt: function (payload) {
-      this.phaseId = payload.value; 
-      this.phaseName = payload.name; 
+      console.log("eliminamos fases")
+      console.log(payload)
+      this.phaseId = payload.value;
+      this.phaseName = payload.name;
       this.phaseOpen = false;
     },
     getFrontOption: function() {
       const options = [];
       this.rows.map(row => {
         const temp = {};
-        temp['value'] = row.id;
-        temp['name'] = row.name;
+        temp['value'] = row.codFrente;
+        temp['name'] = row.desFrente;
         options.push(temp);
       });
       return options;
@@ -127,16 +130,16 @@ export default {
     getPhaseOption: function() {
       const options = [
         {
-          value: 'all',
-          name: 'All',
+          value: '-999',
+          name: 'Todo',
         }
       ];
       this.rows.map(row => {
-        if (row.id === this.frontId) {
-          row.info.map(elem => {
+        if (row.codFrente === this.frontId) {
+          row.listaFase.map(elem => {
             const temp = {};
-            temp['value'] = elem.id;
-            temp['name'] = elem.name;
+            temp['value'] = elem.codFase;
+            temp['name'] = elem.desFase;
             options.push(temp);
           });
         }

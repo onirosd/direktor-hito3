@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class ProjectUser extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'codProyecto',
         'id',
         'codEstadoInvitacion',
-        'desArea',
+        'codArea',
         'dayFechaInvitacion',
         'dayFechaInvitationConfirm',
         'codRolIntegrante',

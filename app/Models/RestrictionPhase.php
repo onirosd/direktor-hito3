@@ -19,6 +19,7 @@ class RestrictionPhase extends Model
         'codAnaRes',
     ];
 
-    protected $table = 'anares_fase';
-    public $timestamps = false;
+    protected $table      = 'anares_fase';
+    protected $primaryKey = 'codAnaResFase';
+    public $timestamps     = false;
 }

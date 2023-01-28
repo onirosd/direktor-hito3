@@ -1,21 +1,27 @@
 <template>
-  <div class="flex justify-between sm:flex-col px-40">
-    <span class="text-2xl mb-2">Hola , {{info_person[0].name}}</span>
+<div>
+<Breadcrumb
+      :paths="['Inicio', 'Información personal']"
+
+    />
+<div class="justify-between ">
+
+  <div class=" justify-between sm:flex-col px-40">
+    <span class="text-2xl mb-2">Hola , {{userData.name}}</span>
   </div>
 
-  <div class="flex justify-between sm:flex-col px-40 ">
+  <div class=" justify-between sm:flex-col px-40">
     <img
-        :src="img_source"
+        :src="userData.img_source"
         :class="{
           'img-size': true,
           'img-square': true,
           'img-circular': true,
         }"
+
       />
-
-
   </div>
-  <nav><br></nav>
+
   <div class="flex justify-between sm:flex-col px-40">
     <div
       class="flex flex-col h-10 text-[#616E8E] group cursor-pointer px-5"
@@ -30,45 +36,43 @@
                                         @change="addPerfilPhoto"
                                     />
       <img
-        src="../assets/images/icons/tooltip-edit.svg"
+        src="../../assets/images/icons/tooltip-edit.svg"
         alt=""
         class="ml-6 mr-3 group-hover:content-editActive"
       />
-      <w-btn class="text-[18px] leading-3 group-hover:text-orange" @click="$refs.photoFile.click()"
+      <w-btn class="text-1xl group-hover:text-orange" @click="$refs.photoFile.click()"
         >
         Editar
       </w-btn>
     </div>
+
   </div>
 
-  <br><br>
   <div class="flex justify-between sm:flex-col px-40">
-  <div class="flex flex-col w-[48%] sm:w-full">
-    <span class="text-2xl mb-2">Nombre</span>
-    <span class="mb-8">{{info_person[0].name}}</span>
-    <br/>
-    <span class="text-2xl mb-2">Celular</span>
-    <span class="mb-8">{{info_person[0].celular}}</span>
-    <br/>
-    <span class="text-2xl mb-2">Cargo</span>
-    <span class="mb-8">Arquitecto</span>
+      <div class="flex flex-col w-[48%] sm:w-full">
+        <span class="text-1xl mb-2 ">Nombre</span>
+        <span class="mb-8 text-xs">{{userData.name}}</span>
 
+        <span class="text-1xl mb-2">Celular</span>
+        <span class="mb-8 text-xs">{{userData.celular}}</span>
+
+        <span class="text-1xl mb-2">Cargo</span>
+        <span class="mb-8 text-xs">Arquitecto</span>
+
+      </div>
+      <div class="flex flex-col w-[48%] sm:w-full">
+        <span class="text-1xl mb-2">Apellido</span>
+        <span class="mb-8 text-xs">{{userData.lastname}}</span>
+
+        <span class="text-1xl mb-2">Empresa</span>
+        <span class="mb-8 text-xs">{{userData.nombreempresa}}</span>
+
+        <span class="text-1xl mb-2">Correo Empresarial</span>
+        <span class="mb-8 text-xs">{{userData.email}}</span>
+
+
+      </div>
   </div>
-  <div class="flex flex-col w-[48%] sm:w-full">
-    <span class="text-2xl mb-2">Apellido</span>
-    <span class="mb-8">{{info_person[0].lastname}}</span>
-    <br/>
-    <span class="text-2xl mb-2">Empresa</span>
-    <span class="mb-8">{{info_person[0].nombreempresa}}</span>
-    <br/>
-    <span class="text-2xl mb-2">Correo Empresarial</span>
-    <span class="mb-8">{{info_person[0].email}}</span>
-    <br>
-    <br>
-
-  </div>
-
-</div>
 
 <div class="flex flex-col w-[100%] sm:w-full">
 
@@ -83,50 +87,93 @@
   <div class="flex flex-col w-[48%] sm:w-full">
 
 </div>
-<div class="flex flex-col w-[48%] sm:w-full">
+<div class="flex flex-col w-[38%] sm:w-full">
 
-  <div class="flex justify-between sm:flex-col px-40">
-    <button class=" h-14 sm:w-full bg-orange text-white text-base px-8 rounded"
-    @click="personEditar">Editar Informacion</button>
+
+    <button class=" h-14 sm:w-full bg-orange text-white text-base pt-4 pb-4 rounded"
+    @click="editPerson">Editar Informacion</button>
+
+
+
+
 </div>
 
 </div>
 
-</div>
 
+</div>
+</div>
 
 </template>
 
-<script setup>
+<script>
 import store from "../../store";
-import { useRouter } from "vue-router";
-import { computed, ref } from "vue";
+import Breadcrumb from "../../components/Layout/Breadcrumb.vue";
+// import { useRouter } from "vue-router";
+// import { computed, ref } from "vue";
 
 
-store.dispatch("get_infoPerson");
-const info_person = computed(() => store.state.infoPerson.data);
-const img_source  = computed(() => store.state.infoPerson.img);
-const router      = useRouter();
+export default {
+  name: "white-project-component",
+  components: {
+    Breadcrumb
+  },
+  data: function () {
+    return {
+      nameProyecto:"",
+      userData:[],
+      cargos: [],
+      disabled:true,
+      // info_person:[],
+      // img_source:"",
+      disabledItems:true,
+    }
+  },
+  methods: {
 
-function personEditar(){
+    editPerson: function (index) {
 
-  router.push({
-        name: "person_edit",
+    this.$router.push({
+      name: 'person_edit'
+    })
+
+    },
+
+    load_data_person() {
+
+    let data_person = this.$store.state.user.data;
+    let data_img    = this.$store.state.infoPerson.img;
+    this.userData['id']             = data_person.id
+    this.userData['name']           = data_person.name
+    this.userData['celular']        = data_person.celular
+    this.userData['codCargo']       = data_person.codCargo
+    this.userData['lastname']       = data_person.lastname
+    this.userData['nombreempresa']  = data_person.nombreempresa
+    this.userData['email']          = data_person.email
+    this.userData['img_source']     = data_img
+    console.log(data_person)
+    console.log(">>>> aqui vemos lo que se cargo")
+    console.log(this.userData)
+
+
+    },
+
+  },
+  mounted: function() {
+
+      console.log(">>>>> verificamos viene de user.data")
+      console.log(this.$store.state.user.data)
+      store.dispatch("get_infoPerson").then((response) => {
+
+
+        this.load_data_person()
+        this.disabled = false
+
       });
 
+  }
+
 }
-
-// items =  [
-//       { name: 'Foo' },
-//       { name: 'Bar' }
-//     ]
-// items.push()
-
-
-
-// let person = {
-
-// };
 
 </script>
 

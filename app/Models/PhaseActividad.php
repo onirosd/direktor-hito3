@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class PhaseActividad extends Model
 {
     use HasFactory;
-    protected $primaryKey = 'codAnaResActividad'; 
+
     protected $fillable = [
         'codAnaResActividad',
         'desActividad',
@@ -26,6 +26,6 @@ class PhaseActividad extends Model
     ];
 
     protected $table = 'anares_actividad';
-    
+    protected $primaryKey = 'codAnaResActividad';
     public $timestamps = false;
 }

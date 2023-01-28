@@ -6,7 +6,7 @@
         :key="index"
         :value="option.value"
         class="mb-2 cursor-pointer h-14 p-4 font-normal text-base relative"
-        @click="$emit('selected', { value: option.value, name: option.name })"
+        @click="$emit('selected', { value: option.value, name: option.name, name_variable:name, carea:option.carea })"
       >
         {{ option.name }}
         <img
@@ -26,6 +26,7 @@ export default {
   props: {
     options: Array,
     selType: String,
+    name:String
   },
 };
 </script>

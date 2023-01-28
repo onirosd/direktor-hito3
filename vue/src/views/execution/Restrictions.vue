@@ -23,7 +23,7 @@
           />
         </template>
       </DataTable>
-      
+
     </div>
     <AdvertisingBig :width="928" :height="100" />
     <Advertising />
@@ -202,10 +202,12 @@ export default {
       console.log(this.selUsers)
     },
     openConstraintPage: function(payload) {
+      store.dispatch('cleanListRestrictions');
       sessionStorage.setItem('constraintid', payload.id)
+      sessionStorage.setItem('constraintNameProy', payload.nameProy)
       console.log(payload)
       this.$router.push({
-        name: 'white_project'
+        name: 'add_restrictions'
       })
     }
   },
@@ -221,5 +223,10 @@ export default {
       return this.$store.getters.data(this.rowId);
     }
   },
+  mounted:function(){
+
+    store.dispatch('get_infoPerson');
+
+  }
 };
 </script>

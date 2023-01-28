@@ -77,7 +77,7 @@ export default {
       this.material = payload.value;
     },
     getOption: function () {
-      const options = []; 
+      const options = [];
       this.$store.state.Restrictionlist.map((row) => {
         const temp = {};
         temp["value"] = row.value;

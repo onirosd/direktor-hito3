@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed top-16 sm:top-14 left-64 sm:left-0 right-0 flex-col z-10">
+  <div class="fixed top-16 sm:top-14 left-64 sm:left-0 right-0 flex-col ">
     <div class="flex h-16 sm:h-14 bg-side relative items-center justify-center">
       <div class="flex text-sm">
         <div class="flex mr-20 sm:mr-[25.5px]">

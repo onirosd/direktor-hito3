@@ -32,7 +32,7 @@
             type="text"
             v-model="phaseName"
             class="h-[52px] w-full px-4 rounded border border-[#8A9CC9] font-normal text-base text-activeText"
-            placeholder="Selecciona un frente"
+            placeholder="Selecciona una fase"
           />
           <img
             src="../assets/images/icons/ic_arrow-down.svg"
@@ -80,7 +80,7 @@ export default {
       phaseName: "",
       isOpen: false,
       selStatus: false,
-      paragraphs: ["Selecciona en que frente lo deseas agregar"],
+      paragraphs: ["Selecciona el Frente"],
     };
   },
   methods: {
@@ -97,8 +97,8 @@ export default {
       const options = [];
       this.rows.map((row) => {
         const temp = {};
-        temp["value"] = row.id;
-        temp["name"] = row.name;
+        temp["value"] = row.codFrente;
+        temp["name"] = row.desFrente;
         options.push(temp);
       });
       return options;

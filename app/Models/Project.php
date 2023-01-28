@@ -17,7 +17,7 @@ class Project extends Model
         'desEmpresa',
         'numPlazo',
         'numAreaTechado',
-        'desTipoProyecto',
+        'codTipoProyecto',
         'codUbigeo',
         'dayFechaInicio',
         'numMontoReferencial',
@@ -26,9 +26,11 @@ class Project extends Model
         'desPais',
         'desDireccion',
         'dayFechaCreacion',
-        'desUsuarioCreacion'
+        'desUsuarioCreacion',
+        'codMoneda'
     ];
     protected $table = "proy_proyecto";
+    protected $primaryKey = 'codProyecto';
 
     public $timestamps = false;
 

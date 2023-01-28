@@ -1,4 +1,5 @@
 <template>
+
   <div class="flex flex-col">
     <span class="text-2xl mb-8"
       >Asigna los miembros de tu primer proyecto
@@ -17,33 +18,77 @@
           class="h-[52px] w-full mb-4 border border-[#8A9CC9] rounded px-4"
         />
       </div>
-      
+
       <div class="flex flex-col w-[32%] sm:w-full sm:mb-8">
         <span class="text-sm leading-6 mb-4">Selecciona el rol</span>
-        <Select
+        <!-- <Select
           v-for="(user, index) in users"
           :key="index"
           :indexVal="index"
           :typeVal="'text'"
           :placeHolder="'Selecciona*'"
           :selType="'role'"
-          @selRole="selRole"
+
           v-model="user.userRole"
-          :options="[{value: 'editor', name: 'Editor'}, {value: 'visualizer', name: 'Visualizador'},]"
-        />
+          :options="rolIntegrantes"
+        /> -->
+
+        <select
+        v-model="value.userRole"
+        v-for="(value, index) in users"
+        :key="index"
+        class="h-[52px] w-full mb-4 border border-[#8A9CC9] rounded px-4"
+        >
+          <option
+          v-for="item in rolIntegrantes" v-bind:key="item.value" v-bind:value = "item.value" :selected="value.userRole" >
+            {{ item.name }}
+          </option>
+
+        </select>
+
       </div>
       <div class="flex flex-col w-[32%] sm:w-full">
         <span class="text-sm leading-6 mb-4"
           >Selecciona área al que pertenece</span
         >
-        <input
+        <!-- <input
+
+          @selRole="selRole"
+          @selRole="selArea"
+
           type="text"
           v-for="(user, index) in users"
           :key="index"
           placeholder="Correo electrónico"
           v-model="user.userArea"
           class="h-[52px] w-full mb-4 border border-[#8A9CC9] rounded px-4"
-        />
+        /> -->
+
+        <!-- <Select
+          v-for="(user, index) in users"
+          :key="index"
+          :indexVal="index"
+          :typeVal="'text'"
+          :placeHolder="'Selecciona*'"
+          :selType="'area'"
+
+          v-model="user.userArea"
+          :options="areaIntegrantes"
+        /> -->
+
+        <select
+        v-model="value.userArea"
+        v-for="(value, index) in users"
+        :key="index"
+        class="h-[52px] w-full mb-4 border border-[#8A9CC9] rounded px-4"
+        >
+          <option
+          v-for="item in areaIntegrantes" v-bind:key="item.value" v-bind:value = "item.value" :selected="value.userArea" >
+            {{ item.name }}
+          </option>
+
+        </select>
+
       </div>
     </div>
     <div class="flex cursor-pointer mb-8" @click="addUser">
@@ -66,6 +111,8 @@ export default {
   },
   data: function () {
     return {
+      areaIntegrantes : [],
+      rolIntegrantes : [],
       users: [],
     };
   },
@@ -84,7 +131,26 @@ export default {
         userArea: "",
       };
       this.users.push(temp);
-      console.log(this.users)
+
+    //   if (this.areaIntegrantes.length  == 0){
+
+    //       let tareaintegrante  = this.$store.state.areaintegrante;
+    //        for (let index = 0; index < tareaintegrante.length; index++) {
+    //        this.areaIntegrantes.push({value: tareaintegrante[index]["codArea"], name: tareaintegrante[index]["desArea"]})
+    //       }
+
+
+    //   }
+
+    //   if (this.rolIntegrantes.length  == 0){
+
+    //      let trolintegrante  = this.$store.state.rolintegrante;
+    //        for (let index = 0; index < trolintegrante.length; index++) {
+    //        this.rolIntegrantes.push({value: trolintegrante[index]["codRolIntegrante"], name: trolintegrante[index]["desRolIntegrante"]})
+    //      }
+
+    // }
+
     },
     selRole: function(payload) {
       this.users[payload.indexVal].userRole = payload.value;
@@ -95,5 +161,32 @@ export default {
       this.paraStatus = false;
     },
   },
+  computed: {
+
+
+  },
+  beforeMount: function() {
+
+
+  },
+  beforeCreate() {
+
+
+    // console.log(">>> entrando en step 2")
+    //   let tareaintegrante  = this.$store.state.areaintegrante;
+    //   for (let index = 0; index < tareaintegrante.length; index++) {
+    //     this.areaIntegrantes.push({value: tareaintegrante[index]["codArea"], name: tareaintegrante[index]["desArea"]})
+    //   }
+
+    //   let trolintegrante  = this.$store.state.rolintegrante;
+    //   for (let index = 0; index < trolintegrante.length; index++) {
+    //     this.rolIntegrantes.push({value: trolintegrante[index]["codRolIntegrante"], name: trolintegrante[index]["desRolIntegrante"]})
+    //   }
+
+
+
+
+  },
+
 };
 </script>

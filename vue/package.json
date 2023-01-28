@@ -14,9 +14,11 @@
     "uuid": "^8.3.2",
     "v-calendar": "^3.0.0-alpha.8",
     "vue": "^3.2.25",
+    "vue-autocomplete-input-tag": "^2.0.1",
     "vue-click-outside": "^1.1.0",
     "vue-date-picker": "^2.5.0",
     "vue-router": "^4.0.12",
+    "vue-simple-search-dropdown": "^1.0.1",
     "vuetify-datetime-picker": "^2.1.1",
     "vuex": "^4.0.2"
   },

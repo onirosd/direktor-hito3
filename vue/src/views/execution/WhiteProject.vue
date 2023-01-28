@@ -226,7 +226,7 @@
         </div>
       </div>
     </div>
-    
+
     <AddFront :rows="rows" v-if="modalName === 'addFront'" @closeModal="closeModal" @addFront="addFront" />
     <AddPhase :rows="rows" v-if="modalName === 'addPhase'" @closeModal="closeModal" @addPhase="addPhase" />
     <DeleteFront :rows="rows" v-if="modalName === 'deleteFront'" @closeModal="closeModal" @deleteFront="deleteFront" />
@@ -393,7 +393,7 @@ export default {
       this.closeModal();
     },
     addRow: function (payload) {
-      
+
       this.$store.commit({
         type: 'addScrollTableRow',
         frontId: this.frontId,
@@ -402,12 +402,13 @@ export default {
       });
 
       const data = {
-        frontId: this.frontId, 
+        frontId: this.frontId,
         phaseId: this.phaseId,
         actividadName: payload.exercise,
       }
       store.dispatch('add_Actividad', data)
       this.closeModal();
+
     },
     delRow: function (payload) {
       this.$store.commit({
@@ -431,15 +432,15 @@ export default {
       }
       this.closeModal();
     },
-    addRowModal: function(payload) { 
+    addRowModal: function(payload) {
       this.openModal({param: 'addRow', frontId: payload.frontId, phaseId: payload.phaseId})
     },
-    addRestriction: function( options) { 
+    addRestriction: function( options) {
       if(options) {
-        store.dispatch('Set_Restriction', options); 
-      } 
-      this.$store.getters.addRestriction_P(options);  
-      this.closeModal(); 
+        store.dispatch('Set_Restriction', options);
+      }
+      this.$store.getters.addRestriction_P(options);
+      this.closeModal();
     }
   },
   computed: {
@@ -449,7 +450,7 @@ export default {
     isDisabled: function () {
       return this.rows.length > 0 ? false : true;
     },
-    rows: function() { 
+    rows: function() {
       return this.$store.state.whiteproject_rows;
     },
     restrictionOption: function () {
