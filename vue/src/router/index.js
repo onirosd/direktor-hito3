@@ -6,7 +6,7 @@ import Project from "../views/start/Project.vue";
 import Welcome from "../views/start/Welcome.vue";
 import NotFound from "../views/NotFound.vue";
 import AuthLayout from "../components/Ant_AuthLayout.vue";
-import PageLayout from "../components/Ant_PageComponent.vue";
+// import PageLayout from "../components/Ant_PageComponent.vue";
 import Restrictions from "../views/execution/Restrictions.vue";
 import WhiteProject from "../views/execution/WhiteProject.vue";
 import AddRestrictions from "../views/execution/AddRestrictions.vue";
@@ -20,7 +20,7 @@ if(sessionStorage.getItem('Id')) {
 
     {
       path: "/",
-      redirect: "/home",
+      redirect: "/login",
       name: "Auth",
       component: AuthLayout,
       meta: {isGuest: false},

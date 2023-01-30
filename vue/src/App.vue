@@ -89,15 +89,15 @@ export default {
     },
     getUsername: function() {
 
-      return this.$store.state.user.data.name +" "+ this.$store.state.user.data.lastname
+      return " "
+      //this.$store.state.user.data.name +" "+ this.$store.state.user.data.lastname
 
     }
   },
   mounted: function() {
     window.addEventListener('resize', this.handleResize);
     this.handleResize();
-    this.$store.dispatch('getUserName');
-    // this.getUsername();
+    // this.$store.dispatch('getUserName');
 
   },
 };
